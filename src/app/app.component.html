@@ -1,20 +1,57 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div fxLayout="column" fxFlex [class.dark-theme]="isDarkTheme">
 
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Angular Material</span>
+
+      <!-- Filler that pushes the menu button to the end of the toolbar -->
+      <span fxFlex></span>
+
+      <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlex>
+    <mat-sidenav mode="side" opened>
+
+      <mat-tab-group>
+        <mat-tab label="Users">
+          <mat-nav-list>
+            <mat-list-item *ngFor="let user of users" (click)="selectedUser = user">
+              <mat-icon matListAvatar svgIcon="avatars:{{user.avatar}}" class="avatar"></mat-icon>
+              <span>{{user.name}}</span>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-tab>
+        <mat-tab label="Settings">
+          <span>Settings</span>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-sidenav>
+    <div class="content" fxLayout="row" fxLayout.sm="column" fxLayoutGap="16px">
+
+      <mat-card fxFlex="80">
+        <mat-icon svgIcon="avatars:{{selectedUser.avatar}}" class="avatar"></mat-icon>
+        <h2>{{selectedUser.name}}</h2>
+        <p>{{selectedUser.details}}</p>
+      </mat-card>
+
+      <mat-card fxFlex fxLayout="column" fxLayoutGap="14px">
+
+      </mat-card>
+
+    </div>
+  </mat-sidenav-container>
+
+  <mat-menu #themeMenu x-position="before">
+    <button mat-menu-item (click)="isDarkTheme = !isDarkTheme">Toggle Theme</button>
+  </mat-menu>
+
+  <button mat-fab (click)="openAdminDialog()" class="fab-bottom-right">
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>

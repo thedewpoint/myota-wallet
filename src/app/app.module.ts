@@ -7,6 +7,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
+
 import {
   MatButtonModule,
   MatCardModule,
@@ -20,7 +22,7 @@ import {
   MatSidenavModule,
   MatSlideToggleModule,
   MatTabsModule,
-  MatToolbarModule
+  MatToolbarModule,
 } from '@angular/material';
 
 
@@ -56,7 +58,9 @@ const appRoutes: Routes = [
   MatSlideToggleModule,
   MatTabsModule,
   MatToolbarModule,
-  FlexLayoutModule
+  FlexLayoutModule,
+  FormsModule,
+  MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

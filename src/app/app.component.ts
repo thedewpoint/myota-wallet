@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry, MatDialog} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Iota} from 'iota-basic';
 
 import 'rxjs/add/operator/filter';
 
@@ -12,7 +13,8 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+  seed: string;
+  checksum:string;
   users = [
     {
       name: 'Lia Lugo',
@@ -80,11 +82,15 @@ export class AppComponent {
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private dialog: MatDialog) {
     // To avoid XSS attacks, the URL needs to be trusted from inside of your application.
+
     const avatarsSafeUrl = sanitizer.bypassSecurityTrustResourceUrl('./assets/avatars.svg');
 
     iconRegistry.addSvgIconSetInNamespace('avatars', avatarsSafeUrl);
   }
-
+  update(seed){
+    const iota = new Iota(seed);
+    this.checksum = iota.getChecksum();
+  }
   openAdminDialog() {
     // this.dialog.open(DialogComponent).afterClosed()
     //   .filter(result => !!result)

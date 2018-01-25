@@ -16,10 +16,9 @@
     <mat-sidenav mode="side" opened>
 
       <mat-tab-group>
-        <mat-tab label="Users">
+        <mat-tab label="Nodes">
           <mat-nav-list>
             <mat-list-item *ngFor="let node of node" (click)="selectedNode = node">
-              <!-- <mat-icon svgIcon="avatars:{{user.avatar}}" class="avatar"></mat-icon> -->
               <span>{{node.node}}</span>
             </mat-list-item>
           </mat-nav-list>
@@ -32,23 +31,29 @@
     </mat-sidenav>
     <div class="content" fxLayout="row" fxLayout.sm="column" fxLayoutGap="16px">
 
-      <mat-card fxFlex="100">
+      <mat-card fxFlex="80">
           <img src="assets/iota.svg" height="auto" width="200" style="margin-left:42%">      <!-- Filler that pushes the menu button to the end of the toolbar -->
           <mat-card-content>
               <mat-form-field class="example-full-width" style="width:90%">
               <input matInput #box
+              [(ngModel)]="seed"
               (keyup.enter)="update(box.value)"
-              (blur)="update(box.value)" placeholder="seed">
-          </mat-form-field>    <mat-chip-list *ngIf="checksum" style="float:right;">
-              <mat-chip color="primary" selected="true">{{checksum}}</mat-chip>
-            </mat-chip-list>
+              (blur)="update(box.value)" placeholder="seed">             
+          </mat-form-field>    
+          <mat-icon>vpn_key</mat-icon>
+          <button (click)="generateSeed()" style="float:right;" mat-fab color="primary"><mat-icon>casino</mat-icon>
+          </button>
 
-            </mat-card-content>
+        </mat-card-content>
       </mat-card>
 
-      <!-- <mat-card fxFlex fxLayout="column" fxLayoutGap="14px">
+      <mat-card fxFlex fxLayout="column" fxLayoutGap="14px">
 
-      </mat-card> -->
+        <img *ngIf="blockie" [src]="blockie" style="height:150px; width:150px; border-radius:50%"/>
+          <mat-chip-list  *ngIf="checksum" >
+              <mat-chip style="margin-left:30%" color="primary" selected="true">{{checksum}}</mat-chip>
+            </mat-chip-list>
+      </mat-card>
 
     </div>
   </mat-sidenav-container>

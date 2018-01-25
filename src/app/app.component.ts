@@ -6,7 +6,7 @@ import {INode, NodeService} from './services/node.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import * as blockies from 'ethereum-blockies';
-
+import * as FileSaver from 'file-saver';
 // import {DialogComponent} from './dialog/dialog.component';
 
 @Component({
@@ -20,6 +20,8 @@ export class AppComponent {
   nodeService:NodeService;
   nodes: INode[];
   blockie: string;
+  walletFile: File;
+
 
   constructor(nodeService: NodeService, domSanitizer: DomSanitizer) {
     this.nodeService = nodeService;
@@ -54,5 +56,24 @@ export class AppComponent {
    iota.generateSeed().then((seed)=>{
     this.update(seed);
    });
+  }
+  handleFileInput(files: FileList) {
+    this.walletFile = files.item(0);
+    var that = this;
+    var reader = new FileReader();
+        reader.readAsText(this.walletFile, "UTF-8");
+        reader.onload = function (evt) {
+            console.log(JSON.parse(evt.target.result));
+            const json = JSON.parse(evt.target.result);
+            that.update(json.seeds[0]);
+        }
+        reader.onerror = function (evt) {
+            console.log('error reading file');
+        }
+  }
+  saveFile(){
+    const myJson = {seeds:[this.seed]};
+    const file = new File([JSON.stringify(myJson)], "wallet.json", {type: "application/json;charset=utf-8"});
+    FileSaver.saveAs(file);
   }
 }

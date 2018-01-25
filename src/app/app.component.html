@@ -18,8 +18,8 @@
       <mat-tab-group>
         <mat-tab label="Nodes">
           <mat-nav-list>
-            <mat-list-item *ngFor="let node of node" (click)="selectedNode = node">
-              <span>{{node.node}}</span>
+            <mat-list-item *ngFor="let node of nodes" (click)="selectedNode = node">
+              <span>{{node.host}}</span>
             </mat-list-item>
           </mat-nav-list>
         </mat-tab>
@@ -41,7 +41,12 @@
               (blur)="update(box.value)" placeholder="seed">             
           </mat-form-field>    
           <mat-icon>vpn_key</mat-icon>
-          <button (click)="generateSeed()" style="float:right;" mat-fab color="primary"><mat-icon>casino</mat-icon>
+          <input type="file"
+              
+          id="file"
+          (change)="handleFileInput($event.target.files)">     
+          <button (click)="generateSeed()" style="float:right;" mat-fab color="primary"><mat-icon>casino</mat-icon></button>
+            <button (click)="saveFile()" style="float:right;" mat-fab color="primary"><mat-icon>file_download</mat-icon>
           </button>
 
         </mat-card-content>

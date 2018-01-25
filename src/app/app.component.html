@@ -18,9 +18,9 @@
       <mat-tab-group>
         <mat-tab label="Users">
           <mat-nav-list>
-            <mat-list-item *ngFor="let user of users" (click)="selectedUser = user">
-              <mat-icon matListAvatar svgIcon="avatars:{{user.avatar}}" class="avatar"></mat-icon>
-              <span>{{user.name}}</span>
+            <mat-list-item *ngFor="let node of node" (click)="selectedNode = node">
+              <!-- <mat-icon svgIcon="avatars:{{user.avatar}}" class="avatar"></mat-icon> -->
+              <span>{{node.node}}</span>
             </mat-list-item>
           </mat-nav-list>
         </mat-tab>

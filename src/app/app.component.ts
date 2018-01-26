@@ -2,11 +2,12 @@ import {Component} from '@angular/core';
 import {MatIconRegistry, MatDialog} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Iota} from 'iota-basic';
-import {INode, NodeService} from './services/node.service';
+import {INode, NodeService} from './node/node.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import * as blockies from 'ethereum-blockies';
 import * as FileSaver from 'file-saver';
+import { EncryptionService } from './encryption/encryption.service';
 // import {DialogComponent} from './dialog/dialog.component';
 
 @Component({
@@ -21,10 +22,12 @@ export class AppComponent {
   nodes: INode[];
   blockie: string;
   walletFile: File;
+  encryptionService: EncryptionService;
 
 
-  constructor(nodeService: NodeService, domSanitizer: DomSanitizer) {
+  constructor(nodeService: NodeService, domSanitizer: DomSanitizer, encryptionService: EncryptionService) {
     this.nodeService = nodeService;
+    this.encryptionService = encryptionService;
   }
   ngOnInit(): void {
     this.nodeService.getNodes().subscribe(
@@ -71,9 +74,14 @@ export class AppComponent {
             console.log('error reading file');
         }
   }
-  saveFile(){
+  async saveFile(){
     const myJson = {seeds:[this.seed]};
+    const encrypted = await this.encryptionService.encrypt("test","test");  
+    console.log("encrypted",encrypted);
+    const decrypted = await this.encryptionService.decrypt(encrypted,"test");
+    console.log("decrypted",decrypted);
     const file = new File([JSON.stringify(myJson)], "wallet.json", {type: "application/json;charset=utf-8"});
-    FileSaver.saveAs(file);
+    // FileSaver.saveAs(file);
+    //https://blog.engelke.com/2014/07/16/symmetric-cryptography-in-the-browser-conclusion/
   }
 }

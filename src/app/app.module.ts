@@ -27,7 +27,8 @@ import {
 
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NodeService } from './services/node.service';
+import { NodeService } from './node/node.service';
+import { EncryptionService } from './encryption/encryption.service';
 
 const appRoutes: Routes = [
   { path: '', component: AppComponent }
@@ -63,7 +64,7 @@ const appRoutes: Routes = [
   FormsModule,
   MatChipsModule
   ],
-  providers: [NodeService],
+  providers: [NodeService,EncryptionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

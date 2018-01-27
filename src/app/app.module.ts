@@ -29,15 +29,17 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NodeService } from './node/node.service';
 import { EncryptionService } from './encryption/encryption.service';
+import { LogonComponent } from './logon/logon.component';
 
 const appRoutes: Routes = [
-  { path: '', component: AppComponent }
+  { path: '', component: LogonComponent }
 ];
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LogonComponent
   ],
   imports: [
     RouterModule.forRoot(

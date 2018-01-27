@@ -54,18 +54,7 @@ public async encrypt(file, password) : Promise<File> {
 
 public async decrypt(encrypted, password) : Promise<Blob> {
   const key = await this.getKeyFromPassword(password);
-//   const decrypted = await window.crypto.subtle.decrypt(
-//     {
-//         name: "AES-CTR",
-//         counter: this.ctr, //The same counter you used to encrypt
-//         length: 128, //The same length you used to encrypt
-//     },
-//     key, //from generateKey or importKey above
-//     this.stringToArrayBuffer(encrypted) //ArrayBuffer of the data
-// );
-// let decryptedArr = new Uint8Array(decrypted);
-// return this.arrayBufferToString(decryptedArr);
-const reader = new FileReader();
+  const reader = new FileReader();
 return new Promise<Blob>((resolve,reject)=>{
   reader.onload = async () =>{
     const iv = new Uint8Array(reader.result.slice(0, 16));

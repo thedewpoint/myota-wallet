@@ -1,0 +1,34 @@
+<div class="content" fxLayout="row" fxLayout.sm="column" fxLayoutGap="16px">
+
+<mat-card fxFlex="80">
+    <img src="assets/iota.svg" height="auto" width="200" style="margin-left:42%">
+    <mat-card-content>
+     
+        <mat-form-field class="example-full-width" style="width:90%">
+        <input matInput #box
+        [(ngModel)]="seed"
+        (keyup.enter)="update(box.value)"
+        (blur)="update(box.value)" placeholder="seed">             
+    </mat-form-field>    
+    <mat-icon>vpn_key</mat-icon>
+    <input type="file"
+        
+    id="file"
+    (change)="handleFileInput($event.target.files)">     
+    <button (click)="generateSeed()" style="float:right;" mat-fab color="primary"><mat-icon>casino</mat-icon></button>
+      <button (click)="saveFile()" style="float:right;" mat-fab color="primary"><mat-icon>file_download</mat-icon>
+    </button> 
+
+
+
+ </mat-card-content>
+</mat-card>
+
+<mat-card fxFlex fxLayout="column" fxLayoutGap="14px">
+
+  <img *ngIf="blockie" [src]="blockie" style="height:150px; width:150px; border-radius:50%"/>
+    <mat-chip-list  *ngIf="checksum" >
+        <mat-chip style="margin-left:30%" color="primary" selected="true">{{checksum}}</mat-chip>
+      </mat-chip-list>
+</mat-card>
+</div>

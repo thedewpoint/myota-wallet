@@ -28,8 +28,3 @@
   /deep/ .mat-list-item-content {
     height: auto !important;
   }
-  .myClass {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-  }

@@ -60,8 +60,8 @@ export class AppComponent {
     this.update(seed);
    });
   }
-  handleFileInput(files: FileList) {
-    this.walletFile = files.item(0);
+  async handleFileInput(files: FileList) {
+    this.walletFile = await this.encryptionService.decrypt(files.item(0),"test");
     var that = this;
     var reader = new FileReader();
         reader.readAsText(this.walletFile, "UTF-8");
@@ -76,12 +76,13 @@ export class AppComponent {
   }
   async saveFile(){
     const myJson = {seeds:[this.seed]};
-    const encrypted = await this.encryptionService.encrypt("test","test");  
-    console.log("encrypted",encrypted);
-    const decrypted = await this.encryptionService.decrypt(encrypted,"test");
-    console.log("decrypted",decrypted);
-    const file = new File([JSON.stringify(myJson)], "wallet.json", {type: "application/json;charset=utf-8"});
-    // FileSaver.saveAs(file);
+    // const encrypted = await this.encryptionService.encrypt("test","test");  
+    // console.log("encrypted",encrypted);
+    // const decrypted = await this.encryptionService.decrypt(encrypted,"test");
+    // console.log("decrypted",decrypted);
+    let file = new File([JSON.stringify(myJson)], "wallet.json", {type: "application/json;charset=utf-8"});
+    file = await this.encryptionService.encrypt(file,"test");
+    FileSaver.saveAs(file);
     //https://blog.engelke.com/2014/07/16/symmetric-cryptography-in-the-browser-conclusion/
   }
 }

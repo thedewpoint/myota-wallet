@@ -25,7 +25,7 @@ export class EncryptionService {
             "hash": 'SHA-256'
         },
         baseKey,
-        {"name": "AES-CTR", "length": 128}, // Key we want
+        {"name": "AES-CBC", "length": 128}, // Key we want
         true,                               // Extrable
         ["encrypt", "decrypt"]              // For new key
         );
@@ -34,36 +34,51 @@ export class EncryptionService {
 
 }
 
-public async encrypt(json, password) : Promise<string> {
+public async encrypt(file, password) : Promise<File> {
   const key = await this.getKeyFromPassword(password);
-  let encrypted  = await window.crypto.subtle.encrypt(
-    {
-        name: "AES-CTR",
-        //Don't re-use counters!
-        //Always use a new counter every time your encrypt!
-        counter: this.ctr,
-        length: 128, //can be 1-128
-    },
-    key, //from generateKey or importKey above
-    this.stringToArrayBuffer(JSON.stringify(json)) //ArrayBuffer of data you want to encrypt
-);
-  let newencrypted = new Uint8Array(encrypted);
-  return this.arrayBufferToString(newencrypted);
+  const reader = new FileReader();
+  return new Promise<File> ((resolve,reject)=>{
+    reader.onload = async ()=> {
+      const iv = window.crypto.getRandomValues(new Uint8Array(16));
+      const result = await window.crypto.subtle.encrypt(
+          {name: "AES-CBC", iv: iv},
+          key,
+          new Uint8Array(reader.result)
+      );
+        const blob = new Blob([iv, new Uint8Array(result)], {type: "application/octet-stream"});
+        resolve(new File([blob],"1-27-18.wallet"));
+    };
+    reader.readAsArrayBuffer(file);
+  });
 }
 
-public async decrypt(encrypted, password) : Promise<string> {
+public async decrypt(encrypted, password) : Promise<Blob> {
   const key = await this.getKeyFromPassword(password);
-  const decrypted = await window.crypto.subtle.decrypt(
-    {
-        name: "AES-CTR",
-        counter: this.ctr, //The same counter you used to encrypt
-        length: 128, //The same length you used to encrypt
-    },
-    key, //from generateKey or importKey above
-    this.stringToArrayBuffer(encrypted) //ArrayBuffer of the data
-);
-let decryptedArr = new Uint8Array(decrypted);
-return this.arrayBufferToString(decryptedArr);
+//   const decrypted = await window.crypto.subtle.decrypt(
+//     {
+//         name: "AES-CTR",
+//         counter: this.ctr, //The same counter you used to encrypt
+//         length: 128, //The same length you used to encrypt
+//     },
+//     key, //from generateKey or importKey above
+//     this.stringToArrayBuffer(encrypted) //ArrayBuffer of the data
+// );
+// let decryptedArr = new Uint8Array(decrypted);
+// return this.arrayBufferToString(decryptedArr);
+const reader = new FileReader();
+return new Promise<Blob>((resolve,reject)=>{
+  reader.onload = async () =>{
+    const iv = new Uint8Array(reader.result.slice(0, 16));
+    const result = await window.crypto.subtle.decrypt(
+        {name: "AES-CBC", iv: iv},
+        key,
+        new Uint8Array(reader.result.slice(16))
+    );  
+    resolve(new Blob([new Uint8Array(result)], {type: "application/octet-stream"}));
+};
+reader.readAsArrayBuffer(encrypted);
+});
+
 }
 
 private arrayBufferToString(buffer: Uint8Array) : string{

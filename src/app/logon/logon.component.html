@@ -1,8 +1,21 @@
 <div class="content" fxLayout="row" fxLayout.sm="column" fxLayoutGap="16px">
 
-<mat-card fxFlex="80">
-    <img src="assets/iota.svg" height="auto" width="200" style="margin-left:42%">
-    <mat-card-content>
+<mat-card fxFlex="100">
+    <img src="assets/iota.svg" height="auto" width="200" style="margin-left:42%"><br/>
+
+    <div fxLayout="row">
+        <div style="margin-left:25%" fxFlex="30"> 
+        Upload existing wallet
+    <button type="button" mat-fab color="primary" (click)="imgFileInput.click()"><mat-icon>file_upload</mat-icon></button>
+    <input hidden type="file" #imgFileInput (change)="handleFileInput($event.target.files)"/>
+    </div>
+<div fxFlex="30" fxLayoutGap="14px">
+    Create new wallet
+    <button type="button" mat-fab color="primary" (click)="imgFileInput.click()"><mat-icon>account_balance_wallet</mat-icon></button>
+  </div>
+  </div>
+  
+    <!-- <mat-card-content>
      
         <mat-form-field class="example-full-width" style="width:90%">
         <input matInput #box
@@ -21,14 +34,15 @@
 
 
 
- </mat-card-content>
+ </mat-card-content> -->
+
 </mat-card>
 
-<mat-card fxFlex fxLayout="column" fxLayoutGap="14px">
+<!-- <mat-card fxFlex fxLayout="column" fxLayoutGap="14px">
 
   <img *ngIf="blockie" [src]="blockie" style="height:150px; width:150px; border-radius:50%"/>
     <mat-chip-list  *ngIf="checksum" >
         <mat-chip style="margin-left:30%" color="primary" selected="true">{{checksum}}</mat-chip>
       </mat-chip-list>
-</mat-card>
+</mat-card> -->
 </div>

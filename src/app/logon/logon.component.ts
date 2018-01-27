@@ -8,7 +8,6 @@ import * as FileSaver from 'file-saver';
 import { EncryptionService } from '../encryption/encryption.service';
 @Component({
   selector: 'app-logon',
-  host: {class: 'myClass'},
   templateUrl: './logon.component.html',
   styleUrls: ['./logon.component.css']
 })

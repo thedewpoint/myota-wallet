@@ -30,16 +30,20 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NodeService } from './node/node.service';
 import { EncryptionService } from './encryption/encryption.service';
 import { LogonComponent } from './logon/logon.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AccountService } from './account/account.service';
 
 const appRoutes: Routes = [
-  { path: '', component: LogonComponent }
+  { path: '', component: LogonComponent },
+  {path:'dashboard', component: DashboardComponent}
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LogonComponent
+    LogonComponent,
+    DashboardComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -66,7 +70,7 @@ const appRoutes: Routes = [
   FormsModule,
   MatChipsModule
   ],
-  providers: [NodeService,EncryptionService],
+  providers: [NodeService,EncryptionService, AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

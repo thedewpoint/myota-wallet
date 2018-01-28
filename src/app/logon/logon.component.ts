@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import {Iota} from 'iota-basic';
 import {INode, NodeService} from '../node/node.service';
 import { Observable } from 'rxjs/Observable';
@@ -6,11 +6,15 @@ import 'rxjs/add/operator/filter';
 import * as blockies from 'ethereum-blockies';
 import * as FileSaver from 'file-saver';
 import { EncryptionService } from '../encryption/encryption.service';
+import {Router} from '@angular/router';
+import { AccountService } from '../account/account.service';
 @Component({
   selector: 'app-logon',
   templateUrl: './logon.component.html',
   styleUrls: ['./logon.component.css']
 })
+
+@Injectable()
 export class LogonComponent implements OnInit {
   seed: string;
   checksum:string;
@@ -19,10 +23,11 @@ export class LogonComponent implements OnInit {
   blockie: string;
   walletFile: File;
   encryptionService: EncryptionService;
-  constructor(nodeService: NodeService, encryptionService: EncryptionService) {
-    this.nodeService = nodeService;
-    this.encryptionService = encryptionService;
-   }
+  router;
+
+  constructor(nodeService: NodeService, encryptionService: EncryptionService, router: Router, accountService: AccountService) {
+    this.router = router;
+  }
 
   ngOnInit() {
   }
@@ -73,5 +78,10 @@ export class LogonComponent implements OnInit {
     file = await this.encryptionService.encrypt(file,"test");
     FileSaver.saveAs(file);
     //https://blog.engelke.com/2014/07/16/symmetric-cryptography-in-the-browser-conclusion/
+  }
+
+  createNewAccount(){
+
+    this.router.navigate(['/dashboard']);
   }
 }
